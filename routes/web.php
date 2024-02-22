@@ -14,10 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/', function (Request $request) {
+Route::get('/', function (Request $request) {
     return view('welcome');
 });
 
 Route::get('/teste', function (Request $request) {
-    return view('welcome');
+    return view('login');
 })->name('teste');

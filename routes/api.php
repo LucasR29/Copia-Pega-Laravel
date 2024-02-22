@@ -1,6 +1,11 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CollectionController;
+use App\Http\Controllers\UserController;
+use App\Http\Middleware\IsAdmin;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +19,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// Open Routes
+Route::name('open')->group(function () {
+    Route::apiResource('/users', UserController::class);
+    Route::post('/login', [AuthController::class, 'login']);
+});
+
+// Protected Routes
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+});
+
+// Admin Routes
+Route::middleware([IsAdmin::class, 'auth:sanctum'])->group(function () {
+    Route::apiResource('/collections', CollectionController::class);
 });
