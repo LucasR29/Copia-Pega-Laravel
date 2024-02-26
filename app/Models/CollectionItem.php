@@ -5,23 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Collection extends Model
+class CollectionItem extends Model
 {
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *ss
-     * @var array<int, string>
-     */
     protected $fillable = [
         'name',
+        'token_id',
         'description',
-        'address',
         'image_url',
-        'slug',
-        'type',
-        'chain_id',
-        'campaign_id'
+        'collection_id',
+        'total_items',
+        'claimed_items',
+        'available',
+        'benefits'
     ];
 }
