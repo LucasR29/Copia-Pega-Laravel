@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Brand;
+use App\Models\Company;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -9,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class BrandFactory extends Factory
 {
+    protected $model = Brand::class;
     /**
      * Define the model's default state.
      *
@@ -17,7 +20,10 @@ class BrandFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => fake()->company(),
+            'description' => fake()->text(),
+            'image_url' => fake()->image(),
+            'company_id' => Company::pluck('id')[fake()->numberBetween(1, Company::count() - 1)]
         ];
     }
 }

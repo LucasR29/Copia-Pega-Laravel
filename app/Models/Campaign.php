@@ -3,10 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class Campaign extends Model
+class Campaign extends BaseModel
 {
     use HasFactory;
 
@@ -21,8 +21,13 @@ class Campaign extends Model
         'ends_at',
     ];
 
-    public function collections(): HasMany
+    public function collections(): HasOne
     {
-        return $this->hasMany(Collection::class);
+        return $this->hasOne(Collection::class);
+    }
+
+    public function brand(): BelongsTo
+    {
+        return $this->belongsTo(Brand::class);
     }
 }

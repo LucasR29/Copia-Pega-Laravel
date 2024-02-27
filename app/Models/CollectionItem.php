@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class CollectionItem extends Model
+class CollectionItem extends BaseModel
 {
     use HasFactory;
 
@@ -20,4 +20,9 @@ class CollectionItem extends Model
         'available',
         'benefits'
     ];
+
+    public function collection(): BelongsTo
+    {
+        return $this->belongsTo(Collection::class);
+    }
 }

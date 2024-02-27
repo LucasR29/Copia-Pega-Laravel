@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCampaignRequest;
 use App\Http\Requests\UpdateCampaignRequest;
+use App\Http\Resources\CampaignResource;
+use App\Jobs\Observer;
 use App\Models\Campaign;
+use Illuminate\Support\Facades\DB;
 
 class CampaignController extends Controller
 {
@@ -13,7 +16,7 @@ class CampaignController extends Controller
      */
     public function index()
     {
-        //
+        Observer::dispatch();
     }
 
     /**
@@ -29,7 +32,13 @@ class CampaignController extends Controller
      */
     public function store(StoreCampaignRequest $request)
     {
-        //
+        DB::beginTransaction();
+
+        $campaign = Campaign::create($request->validated());
+
+        DB::commit();
+
+        return new CampaignResource($campaign);
     }
 
     /**
@@ -37,7 +46,7 @@ class CampaignController extends Controller
      */
     public function show(Campaign $campaign)
     {
-        //
+        Observer::dispatch();
     }
 
     /**

@@ -33,9 +33,7 @@ class CollectionController extends Controller
     {
         DB::beginTransaction();
 
-        $validated = $request->validated();
-
-        $collection = Collection::create($validated);
+        $collection = Collection::create($request->validated());
 
         DB::commit();
 

@@ -3,9 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Brand extends Model
+class Brand extends BaseModel
 {
     use HasFactory;
 
@@ -15,4 +16,14 @@ class Brand extends Model
         'image_url',
         'company_id'
     ];
+
+    public function campaign(): HasMany
+    {
+        return $this->hasMany(Campaign::class);
+    }
+
+    public function company(): BelongsTo
+    {
+        return $this->belongsTo(Company::class);
+    }
 }

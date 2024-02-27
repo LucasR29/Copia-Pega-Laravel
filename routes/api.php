@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\CollectionController;
+use App\Http\Controllers\CollectionItemController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\IsAdmin;
 use Illuminate\Http\Request;
@@ -23,6 +25,10 @@ use Illuminate\Support\Facades\Route;
 Route::name('open')->group(function () {
     Route::apiResource('/users', UserController::class);
     Route::post('/login', [AuthController::class, 'login']);
+    Route::apiResource('/collectionItems', CollectionItemController::class);
+    Route::get('/collectionItems/{id}', [CollectionItemController::class, 'show']);
+    Route::get('/collectionItems/{collectionId}/collection', [CollectionItemController::class, 'showByCollection']);
+    Route::apiResource('/campaigns', CampaignController::class);
 });
 
 // Protected Routes

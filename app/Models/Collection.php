@@ -3,9 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Collection extends Model
+class Collection extends BaseModel
 {
     use HasFactory;
 
@@ -24,4 +25,14 @@ class Collection extends Model
         'chain_id',
         'campaign_id'
     ];
+
+    public function campaign(): BelongsTo
+    {
+        return $this->belongsTo(Campaign::class);
+    }
+
+    public function collection_item(): HasMany
+    {
+        return $this->hasMany(CollectionItem::class);
+    }
 }

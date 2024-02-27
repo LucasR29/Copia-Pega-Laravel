@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Collection;
+use App\Models\CollectionItem;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -9,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class CollectionItemFactory extends Factory
 {
+    protected $model = CollectionItem::class;
     /**
      * Define the model's default state.
      *
@@ -17,7 +20,11 @@ class CollectionItemFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => $this->faker->name,
+            'description' => $this->faker->text,
+            'image_url' => $this->faker->imageUrl(),
+            'available' => $this->faker->boolean,
+            'collection_id' => Collection::pluck('id')[fake()->numberBetween(1, Collection::count() - 1)],
         ];
     }
 }

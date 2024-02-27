@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreWalletRequest;
 use App\Http\Requests\UpdateWalletRequest;
 use App\Models\Wallet;
+use Illuminate\Support\Facades\DB;
 
 class WalletController extends Controller
 {
@@ -29,7 +30,12 @@ class WalletController extends Controller
      */
     public function store(StoreWalletRequest $request)
     {
-        //
+        DB::beginTransaction();
+
+        $wallet = Wallet::create($request->validated());
+
+        DB::commit();
+
     }
 
     /**

@@ -2,11 +2,10 @@
 
 namespace App\Listeners;
 
-use App\Events\MintEvent;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-class MintListener extends BaseListener
+class BaseListener
 {
     /**
      * Create the event listener.
@@ -19,7 +18,7 @@ class MintListener extends BaseListener
     /**
      * Handle the event.
      */
-    public function handle(MintEvent $event): void
+    public function handle(object $event): void
     {
         //
     }

@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
+use App\Http\Resources\CompanyResource;
 use App\Models\Company;
+use Illuminate\Support\Facades\DB;
 
 class CompanyController extends Controller
 {
@@ -29,7 +31,13 @@ class CompanyController extends Controller
      */
     public function store(StoreCompanyRequest $request)
     {
-        //
+        DB::beginTransaction();
+
+        $company = Company::create($request->validated());
+
+        DB::commit();
+
+        return new CompanyResource($company);
     }
 
     /**
