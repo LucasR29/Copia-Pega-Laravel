@@ -35,4 +35,9 @@ class Collection extends BaseModel
     {
         return $this->hasMany(CollectionItem::class);
     }
+
+    public function watcher_block_number(): HasMany
+    {
+        return $this->hasMany(WatcherBlockNumber::class);
+    }
 }

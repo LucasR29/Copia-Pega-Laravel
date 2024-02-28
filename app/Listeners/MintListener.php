@@ -2,9 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Events\MintEvent;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Log;
 
 class MintListener extends BaseListener
 {
@@ -19,8 +17,8 @@ class MintListener extends BaseListener
     /**
      * Handle the event.
      */
-    public function handle(MintEvent $event): void
+    public function handle(object $event): void
     {
-        //
+        Log::debug('Mint Event' . json_encode($event));
     }
 }

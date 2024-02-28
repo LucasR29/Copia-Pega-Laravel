@@ -15,10 +15,7 @@ class CollectionItem extends BaseModel
         'description',
         'image_url',
         'collection_id',
-        'total_items',
-        'claimed_items',
         'available',
-        'benefits'
     ];
 
     public function collection(): BelongsTo

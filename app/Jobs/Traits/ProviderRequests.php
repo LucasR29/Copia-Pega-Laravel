@@ -1,6 +1,7 @@
 <?php
 
-use Illuminate\Database\Eloquent\Collection;
+namespace App\Jobs\Traits;
+
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -8,26 +9,25 @@ trait ProviderRequests
 {
     public $url = 'https://polygon-mumbai.infura.io/v3/3ed770669de449cdb904f374c46f1a1d';
 
-    private $events = $events;
-
-    public function getLogs($fromBlock, $toBlock)
+    public function getLogs($address, $fromBlock, $event)
     {
-        $this->blockNumber = $this->getBlockNumber();
-        $blockRange = 100000;
-        $fromBlock = 0;
-        $toBlock = $fromBlock + $blockRange;
-
         Log::debug('Getting logs from Polygon');
+
+        $this->blockNumber = $this->getBlockNumber();
+        $blockRange = 10_000_000;
+        $toBlock = $fromBlock + $blockRange > $this->blockNumber ? $this->blockNumber : $fromBlock + $blockRange;
+
+        Log::error($toBlock);
 
         $params = [
             'jsonrpc' => '2.0',
             'method' => 'eth_getLogs',
             'params' => [[
-                'address' => '0x45fBfA3Cbb6E401364Ee7BB6bB5470ACc2a32f02',
+                'address' => $address,
                 'fromBlock' => '0x' . dechex($fromBlock),
                 'toBlock' => '0x' . dechex($toBlock),
                 'events' => [
-                    $this->events['mint'],
+                   EVENTS[$event],
                 ],
             ]],
             'id' => 1
@@ -38,12 +38,7 @@ trait ProviderRequests
         ])
         ->post($this->url, $params);
 
-        Log::debug('Response: ' . $response);
-        Log::debug(json_encode($params));
-
-        // foreach ($collections as $collection) {
-
-        // }
+        return ['logs' => $response['result'], 'toBlock' => $toBlock];
     }
 
     public function getBlockNumber()
@@ -60,30 +55,8 @@ trait ProviderRequests
         ])
         ->post($this->url, $params);
 
-        return $response['result'];
+        $blockNumber = hexdec(substr($response['result'], 2));
+
+        return $blockNumber;
     }
 }
-
-
-$events = [
-    'mint' => [
-        'name' => 'Mint',
-        'inputs' => [
-            [
-                'type' => 'address',
-                'indexed' => true,
-                'name' => '_receiver'
-            ],
-            [
-                'type' => 'uint256',
-                'indexed' => true,
-                'name' => '_tokenId'
-            ],
-            [
-                'type' => 'address',
-                'indexed' => true,
-                'name' => '_minter'
-            ]
-        ],
-    ]
-];
